@@ -7,6 +7,7 @@ import {
 import * as AppState from '../../state/app.state';
 import * as ProductActions from '../state/product.actions';
 import { Product } from '../product';
+import { act } from '@ngrx/effects';
 
 export interface State extends AppState.State {
   products: ProductState;
@@ -16,16 +17,32 @@ export interface ProductState {
   showProductCode: boolean;
   currentProduct: Product;
   products: Product[];
+  error: string;
 }
 
 const initialState: ProductState = {
   showProductCode: true,
   currentProduct: null,
   products: [],
+  error: '',
 };
 
 export const productReducer = createReducer<ProductState>(
   initialState,
+  on(ProductActions.loadProductsSuccess, (state, action): ProductState => {
+    return {
+      ...state,
+      products: action.products,
+      error: '',
+    };
+  }),
+  on(ProductActions.loadProductsFailed, (state, action): ProductState => {
+    return {
+      ...state,
+      products: [],
+      error: action.error,
+    };
+  }),
   on(ProductActions.toggleProductCode, (state): ProductState => {
     return {
       ...state,
@@ -55,17 +72,21 @@ export const productReducer = createReducer<ProductState>(
         starRating: 0,
       },
     };
-  }),
-  on(ProductActions.loadProductsSuccess, (state, action): ProductState => {
-    return {
-      ...state,
-      products: action.products,
-    };
   })
 );
 
 // Selectors
 const getProductFeatureState = createFeatureSelector<ProductState>('products');
+
+export const getProducts = createSelector(
+  getProductFeatureState,
+  (state) => state.products
+);
+
+export const getError = createSelector(
+  getProductFeatureState,
+  (state) => state.error
+);
 
 export const getShowProductCode = createSelector(
   getProductFeatureState,
@@ -75,9 +96,4 @@ export const getShowProductCode = createSelector(
 export const getCurrentProduct = createSelector(
   getProductFeatureState,
   (state) => state.currentProduct
-);
-
-export const getProducts = createSelector(
-  getProductFeatureState,
-  (state) => state.products
 );

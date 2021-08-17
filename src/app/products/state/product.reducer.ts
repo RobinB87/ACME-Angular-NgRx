@@ -1,4 +1,10 @@
-import { createAction, createReducer, on } from '@ngrx/store';
+import {
+  createAction,
+  createFeatureSelector,
+  createReducer,
+  createSelector,
+  on,
+} from '@ngrx/store';
 import * as AppState from '../../state/app.state';
 import { Product } from '../product';
 
@@ -26,4 +32,22 @@ export const productReducer = createReducer<ProductState>(
       showProductCode: !state.showProductCode,
     };
   })
+);
+
+// Selectors
+const getProductFeatureState = createFeatureSelector<ProductState>('products');
+
+export const getShowProductCode = createSelector(
+  getProductFeatureState,
+  (state) => state.showProductCode
+);
+
+export const getCurrentProduct = createSelector(
+  getProductFeatureState,
+  (state) => state.currentProduct
+);
+
+export const getProducts = createSelector(
+  getProductFeatureState,
+  (state) => state.products
 );

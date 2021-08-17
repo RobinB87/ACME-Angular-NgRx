@@ -1,6 +1,6 @@
-# APM-Demo0
+# Introduction
 
-Starter files with no NgRx added.
+Small project with Angular and NgRx pattern implemented.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.3.
 

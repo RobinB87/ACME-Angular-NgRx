@@ -13,11 +13,26 @@ export const loadProductsFailed = createAction(
   props<{ error: string }>()
 );
 
+export const updateProduct = createAction(
+  '[Product] Update',
+  props<{ product: Product }>()
+);
+
+export const updateProductSuccess = createAction(
+  '[Product] Update Success',
+  props<{ product: Product }>()
+);
+
+export const updateProductFailed = createAction(
+  '[Product] Update Fail',
+  props<{ error: string }>()
+);
+
 export const toggleProductCode = createAction('[Product] Toggle Product Code');
 
 export const setCurrentProduct = createAction(
   '[Product] Set Current Product',
-  props<{ product: Product }>()
+  props<{ currentProductId: number }>()
 );
 
 export const clearCurrentProduct = createAction(

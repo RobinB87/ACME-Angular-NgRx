@@ -28,6 +28,7 @@ const initialState: ProductState = {
 
 export const productReducer = createReducer<ProductState>(
   initialState,
+  // LOAD
   on(ProductActions.loadProductsSuccess, (state, action): ProductState => {
     return {
       ...state,
@@ -42,6 +43,59 @@ export const productReducer = createReducer<ProductState>(
       error: action.error,
     };
   }),
+
+  // ADD
+  on(ProductActions.addProductSuccess, (state, action): ProductState => {
+    return {
+      ...state,
+      products: [...state.products, action.product],
+      currentProductId: action.product.id,
+      error: '',
+    };
+  }),
+  on(ProductActions.addProductFailed, (state, action): ProductState => {
+    return {
+      ...state,
+      error: action.error,
+    };
+  }),
+
+  // UPDATE
+  on(ProductActions.updateProductSuccess, (state, action): ProductState => {
+    const updatedProducts = state.products.map((stateProduct) =>
+      stateProduct.id === action.product.id ? action.product : stateProduct
+    );
+    return {
+      ...state,
+      products: updatedProducts,
+      currentProductId: action.product.id,
+      error: '',
+    };
+  }),
+  on(ProductActions.updateProductFailed, (state, action): ProductState => {
+    return {
+      ...state,
+      error: action.error,
+    };
+  }),
+
+  // DELETE
+  on(ProductActions.deleteProduct, (state, action): ProductState => {
+    return {
+      ...state,
+      products: state.products.filter((p) => p.id !== action.id),
+      currentProductId: null,
+      error: '',
+    };
+  }),
+  on(ProductActions.updateProductFailed, (state, action): ProductState => {
+    return {
+      ...state,
+      error: action.error,
+    };
+  }),
+
+  // OTHER
   on(ProductActions.toggleProductCode, (state): ProductState => {
     return {
       ...state,

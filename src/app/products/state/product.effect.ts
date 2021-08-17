@@ -26,12 +26,38 @@ export class ProductEffects {
     );
   });
 
+  addProduct$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ProductActions.addProduct),
+      concatMap((action) =>
+        this.productService.createProduct(action.product).pipe(
+          map((product) => ProductActions.addProductSuccess({ product })),
+          catchError((error) => of(ProductActions.addProductFailed({ error })))
+        )
+      )
+    );
+  });
+
   updateProduct$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(ProductActions.updateProduct),
       concatMap((action) =>
         this.productService.updateProduct(action.product).pipe(
           map((product) => ProductActions.updateProductSuccess({ product })),
+          catchError((error) =>
+            of(ProductActions.updateProductFailed({ error }))
+          )
+        )
+      )
+    );
+  });
+
+  deleteProduct$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(ProductActions.deleteProduct),
+      mergeMap((action) =>
+        this.productService.deleteProduct(action.id).pipe(
+          map(() => ProductActions.deleteProductSuccess()),
           catchError((error) =>
             of(ProductActions.updateProductFailed({ error }))
           )

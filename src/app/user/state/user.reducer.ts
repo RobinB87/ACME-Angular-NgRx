@@ -5,7 +5,7 @@ import {
   on,
 } from '@ngrx/store';
 
-import * as UserActions from './user.actions';
+import { UserPageActions } from './actions';
 import { User } from '../user';
 
 export interface UserState {
@@ -20,7 +20,7 @@ const initialState: UserState = {
 
 export const userReducer = createReducer<UserState>(
   initialState,
-  on(UserActions.maskUserName, (state): UserState => {
+  on(UserPageActions.maskUserName, (state): UserState => {
     return {
       ...state,
       maskUserName: !state.maskUserName,

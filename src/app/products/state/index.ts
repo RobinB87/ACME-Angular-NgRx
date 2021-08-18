@@ -3,6 +3,9 @@ import * as AppState from '../../state/app.state';
 
 import { ProductState } from './product.reducer';
 
+// This file is a 'barrel'
+// It contains the state interface and selectors and re-exports other feature state
+
 export interface State extends AppState.State {
   products: ProductState;
 }

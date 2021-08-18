@@ -1,6 +1,6 @@
 # Introduction
 
-Small project with Angular and NgRx pattern implemented.
+Small learning project with Angular and NgRx pattern implemented.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.3.
 
